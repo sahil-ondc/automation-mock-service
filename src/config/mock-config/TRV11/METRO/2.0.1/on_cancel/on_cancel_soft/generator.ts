@@ -108,11 +108,11 @@ function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
     if (sessionData.order_id) {
     existingPayload.message.order.id = sessionData.order_id;
     }
-    if(sessionData.quote != null){
-    existingPayload.message.order.quote = sessionData.quote
-    }
     existingPayload.message.order.status = "SOFT_CANCEL"
     const now = new Date().toISOString();
+    if(sessionData.quote != null){
+    existingPayload.message.order.quote = applyCancellation(sessionData.quote,15)
+    }
     existingPayload.message.order.created_at = sessionData.created_at
     existingPayload.message.order.updated_at = now
     return existingPayload;

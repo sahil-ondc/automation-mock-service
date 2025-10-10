@@ -2,19 +2,39 @@ import { SessionData } from "../../../session-types";
 
 const generateRandomId = () => {
 	return Math.random().toString(36).substring(2, 15);
-  };
-const transformPayments = (payments:any) => {
-return payments.map((payment:any) => {
-	return {
-		id: generateRandomId(),
-		collected_by: payment.collected_by,
-		status: "NOT-PAID",
-		type: "PRE-ORDER",
-		params: {
-			bank_code: "XXXXXXXX",
-			bank_account_number: "xxxxxxxxxxxxxx",
-		},
-		tags: payment.tags,
+};
+
+const transformPayments = (payments: any) => {
+	return payments.map((payment: any) => {
+		const tags = JSON.parse(JSON.stringify(payment.tags));
+
+		const settlementTermsTag = tags.find(
+			(tag: any) => tag.descriptor?.code === "SETTLEMENT_TERMS"
+		);
+
+		if (settlementTermsTag && Array.isArray(settlementTermsTag.list)) {
+			settlementTermsTag.list.push(
+				{
+					descriptor: { code: "SETTLEMENT_WINDOW" },
+					value: "P30D",
+				},
+				{
+					descriptor: { code: "SETTLEMENT_BASIS" },
+					value: "INVOICE_RECEIPT",
+				}
+			);
+		}
+
+		return {
+			id: generateRandomId(),
+			collected_by: payment.collected_by,
+			status: "NOT-PAID",
+			type: "PRE-ORDER",
+			params: {
+				bank_code: "XXXXXXXX",
+				bank_account_number: "xxxxxxxxxxxxxx",
+			},
+			tags,
 		};
 	});
 };

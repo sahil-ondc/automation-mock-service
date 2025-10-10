@@ -2,6 +2,7 @@ save-data:
   vehicle_category: "$.message.intent.fulfillment.vehicle.category"
   category_ids: "$.message.catalog.providers[*].categories[*].id"
   categories: "$.message.catalog.providers[*].categories[*]"
+  time_range: "$.message.catalog.providers[*].time"
   ticket_category_id: "$.message.catalog.providers[*].categories[?(@.descriptor.name=='Ticket')].id"
   fulfillments: "$.message.catalog.providers[*].fulfillments[*]"
   provider_id: "$.message.catalog.providers[*].id"

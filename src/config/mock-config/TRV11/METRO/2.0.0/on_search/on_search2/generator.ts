@@ -104,6 +104,7 @@ export async function onSearch2Generator(
 	sessionData: SessionData
 ) {
 	existingPayload = updatePaymentDetails(existingPayload,sessionData)
+	// existingPayload = updateProviderTime(existingPayload)
 	try {
 		const route = createFullfillment(
 			sessionData.city_code ?? "std:011"

@@ -38,7 +38,7 @@ function updatePaymentDetails(
   
 	return payload;
   }
-function updateProviderTime(payload: any) {
+export function updateProviderTime(payload: any) {
 	const now = new Date();
 	const twoDaysLater = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000);
   
